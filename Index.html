@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soluciones Remotas Express | Ingeniería & Soporte IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800;900&family=Figtree:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:#080810; --surface:#0e0e1a; --surface2:#13131f;
+  --border:rgba(59,130,246,0.18);
+  --blue:#3b82f6; --blue-bright:#60a5fa;
+  --green:#10f985; --green-dim:#0d9b58;
+  --text:#e2e8f0; --muted:#64748b;
+  --fh:'Barlow Condensed',sans-serif;
+  --fb:'Figtree',sans-serif;
+  --fm:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:var(--fb);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background-image:linear-gradient(rgba(59,130,246,.04)1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.04)1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none}
+section{position:relative;z-index:1}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0}
+.bb{width:420px;height:420px;background:rgba(59,130,246,.12)}
+.bg{width:300px;height:300px;background:rgba(16,249,133,.07)}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+.wrap-w{max-width:1100px;margin:0 auto}
+
+/* ICONS */
+.ico{display:inline-flex;align-items:center;justify-content:center}
+.ico svg{width:1em;height:1em;fill:currentColor;vertical-align:middle}
+
+/* HEADER */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,8,16,.92);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  padding:13px 16px;
+  display:flex;justify-content:space-between;align-items:center
+}
+.logo{font-family:var(--fh);font-size:clamp(.78rem,3.8vw,1.15rem);font-weight:900;letter-spacing:.03em;text-transform:uppercase;color:#fff;white-space:nowrap}
+.logo s{color:var(--green);text-decoration:none}
+.badge{font-family:var(--fm);font-size:clamp(.52rem,2.4vw,.63rem);font-weight:700;color:var(--green);border:1px solid var(--green-dim);padding:3px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 1.8s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(16,249,133,.5)}50%{opacity:.8;transform:scale(1.2);box-shadow:0 0 0 6px rgba(16,249,133,0)}}
+
+/* HERO */
+#hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:60px 20px 50px;text-align:center;overflow:hidden}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:.72rem;color:var(--blue-bright);background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);padding:6px 14px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:24px;animation:fadeUp .6s ease both}
+h1{font-family:var(--fh);font-size:clamp(3.2rem,13vw,6rem);font-weight:900;line-height:.95;text-transform:uppercase;color:#fff;animation:fadeUp .7s ease .1s both}
+.ab{color:var(--blue-bright)} .ag{color:var(--green);text-shadow:0 0 30px rgba(16,249,133,.5)}
+.hero-sub{margin:20px auto 32px;max-width:400px;font-size:1.05rem;line-height:1.6;color:var(--muted);animation:fadeUp .7s ease .2s both}
+.ctas{display:flex;flex-direction:column;gap:14px;align-items:center;animation:fadeUp .7s ease .3s both}
+.btn-g{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--green);color:#020d07;font-family:var(--fh);font-size:1.15rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:16px 32px;border-radius:6px;text-decoration:none;box-shadow:0 0 30px rgba(16,249,133,.35),0 4px 20px rgba(0,0,0,.4);transition:all .25s;width:100%;max-width:340px}
+.btn-g:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(16,249,133,.55),0 8px 30px rgba(0,0,0,.4)}
+.trust-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;font-family:var(--fm);font-size:.68rem;color:var(--muted);margin-top:24px}
+.trust-row span{display:flex;align-items:center;gap:5px}
+.trust-row .ico{color:var(--blue-bright)}
+
+/* DIVIDER */
+.div{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+
+/* SECTION */
+.slbl{font-family:var(--fm);font-size:.7rem;font-weight:700;color:var(--blue-bright);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.slbl::before{content:'';display:block;width:24px;height:2px;background:var(--blue-bright)}
+h2{font-family:var(--fh);font-size:clamp(2.2rem,8vw,3.2rem);font-weight:900;text-transform:uppercase;line-height:1;color:#fff;margin-bottom:14px}
+h2 s{color:var(--green);text-decoration:none}
+.sdesc{font-size:.97rem;line-height:1.65;color:var(--muted);max-width:480px}
+
+/* TRUST BAR */
+#trust{padding:48px 20px;background:var(--surface2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:640px;margin:0 auto}
+.ti{text-align:center}
+.tn{font-family:var(--fh);font-size:2.8rem;font-weight:900;color:var(--green);line-height:1;text-shadow:0 0 20px rgba(16,249,133,.3)}
+.tl{font-size:.82rem;color:var(--muted);margin-top:4px}
+
+/* ESTRELLA */
+#estrella{padding:80px 0}
+.cstar{background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(16,249,133,.06));border:1px solid rgba(59,130,246,.35);border-radius:16px;padding:32px 24px;position:relative;overflow:hidden;box-shadow:0 0 60px rgba(59,130,246,.1)}
+.cstar::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--green))}
+.sbadge{display:inline-flex;align-items:center;gap:7px;font-family:var(--fm);font-size:.65rem;font-weight:700;background:var(--blue);color:#fff;padding:4px 12px;border-radius:4px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px}
+.cstar h3{font-family:var(--fh);font-size:2.2rem;font-weight:900;text-transform:uppercase;color:#fff;margin-bottom:10px}
+.cdesc{font-size:.95rem;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.chk{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.chk li{display:flex;align-items:flex-start;gap:10px;font-size:.97rem;color:var(--text)}
+.chk li .ico{color:var(--green);margin-top:2px;flex-shrink:0}
+.plbl{font-family:var(--fm);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.pamt{font-family:var(--fh);font-size:3rem;font-weight:900;color:var(--green);line-height:1;text-shadow:0 0 20px rgba(16,249,133,.4)}
+.pamt small{font-size:1.1rem;font-weight:600;color:var(--muted)}
+.pnote{font-size:.82rem;color:var(--blue-bright);margin-top:6px;display:flex;align-items:center;gap:6px}
+
+/* CONNECT */
+#conectar{padding:80px 0}
+.cgrid{display:flex;flex-direction:column;gap:16px}
+.ccard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 20px;display:flex;align-items:center;gap:18px;transition:border-color .25s,transform .25s;position:relative}
+.ccard:hover{border-color:var(--blue);transform:translateX(4px)}
+.cnum{font-family:var(--fm);font-size:.65rem;font-weight:700;color:var(--blue-bright);position:absolute;top:12px;right:16px;opacity:.5}
+.cico{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.wa-c{background:rgba(37,211,102,.12);color:#25d366}
+.meet-c{background:rgba(66,133,244,.12);color:#4285f4}
+.ad-c{background:rgba(255,140,0,.12);color:#ff8c00}
+.cinfo h4{font-family:var(--fh);font-size:1.3rem;font-weight:800;text-transform:uppercase;color:#fff;margin-bottom:3px}
+.cinfo p{font-size:.88rem;color:var(--muted);line-height:1.5}
+.csteps{margin-top:36px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:22px 20px}
+.csteps h4{font-family:var(--fh);font-size:1.2rem;font-weight:800;text-transform:uppercase;color:var(--blue-bright);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.slist{display:flex;flex-direction:column;gap:12px}
+.step{display:flex;align-items:flex-start;gap:14px;font-size:.92rem;color:var(--text);line-height:1.5}
+.sn{width:26px;height:26px;border-radius:6px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);font-family:var(--fm);font-size:.72rem;font-weight:700;color:var(--blue-bright);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* FÍSICOS */
+#fisicos{padding:80px 0}
+.sgrid{display:flex;flex-direction:column;gap:16px;padding:0 20px}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px 22px;transition:all .3s;position:relative;overflow:hidden}
+.scard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;transform:scaleX(0);transform-origin:left;transition:transform .35s ease}
+.c1::after{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.c2::after{background:linear-gradient(90deg,#10f985,#0d9b58)}
+.c3::after{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+.c4::after{background:linear-gradient(90deg,#8b5cf6,#3b82f6)}
+.c5::after{background:linear-gradient(90deg,#06b6d4,#3b82f6)}
+.scard:hover::after{transform:scaleX(1)}
+.scard:hover{border-color:rgba(255,255,255,.15);transform:translateY(-3px)}
+.sico{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:14px}
+.si1{background:rgba(59,130,246,.12);color:var(--blue-bright)}
+.si2{background:rgba(16,249,133,.1);color:var(--green)}
+.si3{background:rgba(245,158,11,.1);color:#f59e0b}
+.si4{background:rgba(139,92,246,.1);color:#a78bfa}
+.si5{background:rgba(6,182,212,.1);color:#22d3ee}
+.scard h4{font-family:var(--fh);font-size:1.35rem;font-weight:800;text-transform:uppercase;color:#fff;margin-bottom:6px}
+.scard p{font-size:.88rem;color:var(--muted);line-height:1.55}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{font-family:var(--fm);font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em}
+.tb{background:rgba(59,130,246,.12);color:var(--blue-bright);border:1px solid rgba(59,130,246,.2)}
+.tg2{background:rgba(16,249,133,.1);color:var(--green);border:1px solid rgba(16,249,133,.2)}
+.ta{background:rgba(245,158,11,.1);color:#f59e0b;border:1px solid rgba(245,158,11,.2)}
+.tp{background:rgba(139,92,246,.1);color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
+.tc{background:rgba(6,182,212,.1);color:#22d3ee;border:1px solid rgba(6,182,212,.2)}
+
+/* EQUIPO */
+#equipo{padding:80px 0}
+.egrid{display:flex;flex-direction:column;gap:14px}
+.ecard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 20px;display:flex;align-items:center;gap:18px;transition:border-color .25s}
+.ecard:hover{border-color:var(--blue)}
+.eav{width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.ea1{background:rgba(59,130,246,.12);color:var(--blue-bright)}
+.ea2{background:rgba(245,158,11,.1);color:#f59e0b}
+.ea3{background:rgba(139,92,246,.1);color:#a78bfa}
+.einfo h4{font-family:var(--fh);font-size:1.25rem;font-weight:800;text-transform:uppercase;color:#fff}
+.einfo p{font-size:.85rem;color:var(--muted);line-height:1.5}
+.eexp{font-family:var(--fm);font-size:.65rem;color:var(--green);margin-top:4px;display:flex;align-items:center;gap:5px}
+
+/* CTA */
+#cta-final{padding:80px 20px;text-align:center}
+#cta-final h2{font-size:clamp(2.2rem,9vw,3.5rem);margin-bottom:16px}
+#cta-final p{font-size:1rem;color:var(--muted);max-width:380px;margin:0 auto 32px;line-height:1.6}
+.ctabts{display:flex;flex-direction:column;align-items:center;gap:14px}
+.btn-o{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;color:var(--blue-bright);font-family:var(--fh);font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:13px 28px;border-radius:6px;text-decoration:none;border:1px solid rgba(59,130,246,.4);transition:all .25s;width:100%;max-width:300px}
+.btn-o:hover{border-color:var(--blue-bright);background:rgba(59,130,246,.1)}
+
+/* FOOTER */
+footer{padding:30px 20px;border-top:1px solid var(--border);text-align:center}
+.flogo{font-family:var(--fh);font-size:clamp(.82rem,4vw,1.1rem);font-weight:900;text-transform:uppercase}
+.flogo s{color:var(--green);text-decoration:none}
+footer p{font-size:.78rem;color:var(--muted);margin-top:8px}
+.fst{display:inline-flex;align-items:center;gap:6px;font-family:var(--fm);font-size:.65rem;color:var(--green);margin-top:10px}
+
+/* FAB */
+.fab{position:fixed;bottom:22px;right:20px;z-index:200;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 0 25px rgba(37,211,102,.5),0 6px 24px rgba(0,0,0,.4);animation:fl 3s ease-in-out infinite;transition:transform .25s}
+.fab:hover{transform:scale(1.12)!important}
+.fab svg{width:28px;height:28px;fill:#fff}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.fablbl{position:fixed;bottom:34px;right:88px;z-index:200;background:var(--surface);border:1px solid var(--border);font-family:var(--fm);font-size:.65rem;font-weight:700;color:var(--green);padding:6px 12px;border-radius:6px;white-space:nowrap;animation:fi 1s ease 2s both;transition:opacity .5s}
+.fablbl::after{content:'';position:absolute;right:-7px;top:50%;transform:translateY(-50%);border-left:7px solid var(--border);border-top:6px solid transparent;border-bottom:6px solid transparent}
+
+/* ANIM */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(min-width:600px){
+  .sgrid{display:grid;grid-template-columns:1fr 1fr}
+  .egrid{display:grid;grid-template-columns:1fr 1fr}
+  .tg{grid-template-columns:repeat(4,1fr)}
+  .cgrid{display:grid;grid-template-columns:1fr 1fr}
+  .ctas,.ctabts{flex-direction:row;justify-content:center}
+  .btn-g,.btn-o{width:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Soluciones<s>Remotas</s>Express</div>
+  <div class="badge"><span class="dot"></span> IA 24/7</div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="blob bb" style="top:-100px;left:-140px"></div>
+  <div class="blob bg" style="bottom:0;right:-80px"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="hero-tag">
+      <!-- chip icon -->
+      <span class="ico"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M9 3H7v2H5a2 2 0 00-2 2v2H1v2h2v2H1v2h2v2a2 2 0 002 2h2v2h2v-2h2v2h2v-2h2v2h2v-2h2a2 2 0 002-2v-2h2v-2h-2v-2h2v-2h-2V7a2 2 0 00-2-2h-2V3h-2v2h-2V3h-2v2H9V3zm-2 4h10v10H7V7zm2 2v6h6V9H9z"/></svg></span>
+      Soporte Remoto Profesional
+    </div>
+    <h1>Ingeniería<br><span class="ab">de Alto</span><br><span class="ag">Nivel</span></h1>
+    <p class="hero-sub">20 años de experiencia resolviendo lo que otros no pueden. Soporte remoto, redes, CCTV y automatización con IA.</p>
+    <div class="ctas">
+      <a href="https://wa.me/573154046275" class="btn-g">
+        <span class="ico" style="font-size:1.5em"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.852L.057 23.203a.75.75 0 00.923.923l5.351-1.471A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.693 9.693 0 01-4.924-1.344l-.352-.21-3.658 1.005 1.004-3.657-.21-.353A9.693 9.693 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg></span>
+        Hablar Ahora
+      </a>
+    </div>
+    <div class="trust-row">
+      <span><span class="ico"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></span> Pago al finalizar</span>
+      <span><span class="ico"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg></span> Respuesta en minutos</span>
+      <span><span class="ico"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 00-1.38-3.56A8.03 8.03 0 0118.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56A7.987 7.987 0 015.08 16zm2.95-8H5.08a7.987 7.987 0 014.33-3.56A15.65 15.65 0 008.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2s.07-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 01-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg></span> Soporte global</span>
+    </div>
+  </div>
+</section>
+
+<div class="div"></div>
+
+<!-- TRUST -->
+<div id="trust">
+  <div class="tg">
+    <div class="ti rv"><div class="tn">20+</div><div class="tl">Años de experiencia</div></div>
+    <div class="ti rv" style="transition-delay:.1s"><div class="tn">500+</div><div class="tl">Clientes atendidos</div></div>
+    <div class="ti rv" style="transition-delay:.2s"><div class="tn">24/7</div><div class="tl">Disponibilidad</div></div>
+    <div class="ti rv" style="transition-delay:.3s"><div class="tn">98%</div><div class="tl">Casos resueltos</div></div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- ESTRELLA -->
+<section id="estrella">
+  <div class="wrap">
+    <div class="slbl rv">Servicio principal</div>
+    <h2 class="rv">Soporte <s>Express</s><br>Remoto</h2>
+    <p class="sdesc rv" style="margin-bottom:32px">Optimización total de tu PC sin moverte de casa. Informe técnico incluido. Pagas solo al finalizar.</p>
+    <div class="cstar rv">
+      <div class="sbadge">
+        <span class="ico"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></span>
+        Servicio estrella
+      </div>
+      <h3>Soporte PC Express</h3>
+      <p class="cdesc">Diagnóstico completo y reparación remota de tu equipo. Desde limpieza de virus hasta instalación de software empresarial.</p>
+      <ul class="chk">
+        <li><span class="ico"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span> Instalación de Office y activaciones legales</li>
+        <li><span class="ico"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span> Limpieza profunda de virus y malware</li>
+        <li><span class="ico"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span> Diagnóstico de hardware y velocidad</li>
+        <li><span class="ico"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span> Optimización de arranque y rendimiento</li>
+        <li><span class="ico"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span> Informe técnico detallado al finalizar</li>
+      </ul>
+      <div class="price-block">
+        <div class="plbl">Desde</div>
+        <div class="pamt">$50.000 <small>COP</small></div>
+      </div>
+      <div class="pnote">
+        <span class="ico"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span>
+        Pagas al finalizar el servicio — sin riesgo
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div"></div>
+
+<!-- CONECTAR -->
+<section id="conectar">
+  <div class="wrap">
+    <div class="slbl rv">Fácil y seguro</div>
+    <h2 class="rv">¿Cómo nos <s>conectamos?</s></h2>
+    <p class="sdesc rv" style="margin-bottom:32px">No importa si no eres técnico. Te guiamos en cada paso para lograr la conexión en minutos.</p>
+    <div class="cgrid rv">
+      <div class="ccard">
+        <span class="cnum">01</span>
+        <div class="cico wa-c">
+          <span class="ico" style="font-size:1.6em"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.852L.057 23.203a.75.75 0 00.923.923l5.351-1.471A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.693 9.693 0 01-4.924-1.344l-.352-.21-3.658 1.005 1.004-3.657-.21-.353A9.693 9.693 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg></span>
+        </div>
+        <div class="cinfo"><h4>WhatsApp Video</h4><p>Videollamada directa. La opción más rápida y familiar para la mayoría de clientes.</p></div>
+      </div>
+      <div class="ccard">
+        <span class="cnum">02</span>
+        <div class="cico meet-c">
+          <span class="ico" style="font-size:1.4em"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg></span>
+        </div>
+        <div class="cinfo"><h4>Google Meet / Zoom</h4><p>Para sesiones largas o cuando necesitas compartir tu pantalla con comodidad.</p></div>
+      </div>
+      <div class="ccard">
+        <span class="cnum">03</span>
+        <div class="cico ad-c">
+          <span class="ico" style="font-size:1.4em"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"/></svg></span>
+        </div>
+        <div class="cinfo"><h4>AnyDesk / TeamViewer</h4><p>Acceso remoto al escritorio para intervención directa y precisa en tu PC.</p></div>
+      </div>
+    </div>
+    <div class="csteps rv" style="transition-delay:.2s">
+      <h4>
+        <span class="ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 8l4 4-4 4 1.4 1.4L13 12 7.4 6.6 6 8zm5 8h6v-2h-6v2z"/></svg></span>
+        Proceso paso a paso
+      </h4>
+      <div class="slist">
+        <div class="step"><span class="sn">1</span>Contáctanos por WhatsApp y describe tu problema.</div>
+        <div class="step"><span class="sn">2</span>Te enviamos instrucciones simples para instalar la herramienta de conexión.</div>
+        <div class="step"><span class="sn">3</span>Nuestro ingeniero interviene y resuelve el problema en vivo.</div>
+        <div class="step"><span class="sn">4</span>Recibes tu informe técnico. Pagas solo si quedas satisfecho.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div"></div>
+
+<!-- FÍSICOS -->
+<section id="fisicos">
+  <div class="wrap-w">
+    <div class="wrap">
+      <div class="slbl rv">En terreno</div>
+      <h2 class="rv">Servicios <s>Físicos</s></h2>
+      <p class="sdesc rv" style="margin-bottom:32px">Soluciones que requieren presencia en campo. Instalaciones profesionales con garantía técnica.</p>
+    </div>
+    <div class="sgrid" style="max-width:1100px;margin:0 auto">
+      <div class="scard c1 rv">
+        <div class="sico si1"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg></span></div>
+        <h4>CCTV & Videovigilancia</h4>
+        <p>Instalación de cámaras IP, analógicas y sistemas NVR/DVR. Monitoreo remoto desde tu celular.</p>
+        <div class="tags"><span class="tag tb">IP / Analógico</span><span class="tag tb">NVR / DVR</span><span class="tag tb">App móvil</span></div>
+      </div>
+      <div class="scard c2 rv" style="transition-delay:.1s">
+        <div class="sico si2"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg></span></div>
+        <h4>Redes & Cableado</h4>
+        <p>Diseño e instalación de redes LAN, cableado estructurado Cat6, switches y puntos de acceso WiFi.</p>
+        <div class="tags"><span class="tag tg2">LAN / WAN</span><span class="tag tg2">Cat6</span><span class="tag tg2">WiFi Enterprise</span></div>
+      </div>
+      <div class="scard c3 rv" style="transition-delay:.15s">
+        <div class="sico si3"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M20 4H4v2l1 1v13h14V7l1-1V4zm-3 14H7V7h10v11zm-5-9H9v2h3V9zm3 0h-2v2h2V9zm-3 3H9v2h3v-2zm3 0h-2v2h2v-2z"/></svg></span></div>
+        <h4>Venta de Equipos</h4>
+        <p>Computadores, portátiles, cámaras, routers y accesorios. Con garantía y soporte técnico incluido.</p>
+        <div class="tags"><span class="tag ta">PC & Laptops</span><span class="tag ta">Cámaras</span><span class="tag ta">Networking</span></div>
+      </div>
+      <div class="scard c4 rv" style="transition-delay:.2s">
+        <div class="sico si4"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></span></div>
+        <h4>Electricidad & Seguridad</h4>
+        <p>Instalaciones eléctricas certificadas, UPS, reguladores, alarmas y control de acceso.</p>
+        <div class="tags"><span class="tag tp">UPS / Reguladores</span><span class="tag tp">Alarmas</span><span class="tag tp">Acceso</span></div>
+      </div>
+      <div class="scard c5 rv" style="transition-delay:.25s">
+        <div class="sico si5"><span class="ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M13 7h-2v3H8v2h3v3h2v-3h3v-2h-3V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></span></div>
+        <h4>Automatización & Web</h4>
+        <p>Landing pages, chatbots con IA, automatización de procesos y presencia digital profesional.</p>
+        <div class="tags"><span class="tag tc">Landing Pages</span><span class="tag tc">Chatbots IA</span><span class="tag tc">Automatización</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div"></div>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <div class="wrap">
+    <div class="slbl rv">El equipo</div>
+    <h2 class="rv">Expertos en <s>cada área</s></h2>
+    <p class="sdesc rv" style="margin-bottom:32px">Un equipo multidisciplinario que cubre cada aspecto de tu infraestructura tecnológica.</p>
+    <div class="egrid">
+      <div class="ecard rv">
+        <div class="eav ea1"><span class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg></span></div>
+        <div class="einfo"><h4>Ing. Sistemas</h4><p>Redes, Telecomunicaciones y Virtualización.</p><div class="eexp">● 20 años de experiencia</div></div>
+      </div>
+      <div class="ecard rv" style="transition-delay:.1s">
+        <div class="eav ea2"><span class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></span></div>
+        <div class="einfo"><h4>Ing. Eléctrico</h4><p>Potencia, cableado estructurado y seguridad.</p><div class="eexp">● Certificado RETIE</div></div>
+      </div>
+      <div class="ecard rv" style="transition-delay:.2s">
+        <div class="eav ea3"><span class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M13 7h-2v3H8v2h3v3h2v-3h3v-2h-3V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></span></div>
+        <div class="einfo"><h4>Experto IA</h4><p>Desarrollo web y automatización inteligente.</p><div class="eexp">● IA & Web Dev</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="div"></div>
+
+<!-- CTA FINAL -->
+<section id="cta-final">
+  <div class="blob bb" style="bottom:-60px;left:50%;transform:translateX(-50%)"></div>
+  <h2 class="rv">¿Listo para <s>resolver</s><br>tu problema?</h2>
+  <p class="rv" style="transition-delay:.1s">Escríbenos ahora y un ingeniero te responderá en minutos. Sin formularios, sin esperas.</p>
+  <div class="ctabts rv" style="transition-delay:.2s">
+    <a href="https://wa.me/573154046275" class="btn-g" style="max-width:320px">
+      <span class="ico" style="font-size:1.5em"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.852L.057 23.203a.75.75 0 00.923.923l5.351-1.471A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.693 9.693 0 01-4.924-1.344l-.352-.21-3.658 1.005 1.004-3.657-.21-.353A9.693 9.693 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg></span>
+      Escribir por WhatsApp
+    </a>
+    <a href="mailto:contacto@solucionesremotas.com" class="btn-o">
+      <span class="ico"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+      Enviar Correo
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo">Soluciones<s>Remotas</s>Express</div>
+  <p>Ingeniería de alto nivel, a un clic de distancia.</p>
+  <div class="fst"><span class="dot"></span> Soporte activo 24/7</div>
+  <p style="margin-top:16px;font-size:.72rem">© 2026 Soluciones Remotas Express. Todos los derechos reservados.</p>
+</footer>
+
+<!-- FAB -->
+<div class="fablbl">¡Escríbenos!</div>
+<a href="https://wa.me/573154046275" class="fab" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#fff"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.118 1.528 5.852L.057 23.203a.75.75 0 00.923.923l5.351-1.471A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.693 9.693 0 01-4.924-1.344l-.352-.21-3.658 1.005 1.004-3.657-.21-.353A9.693 9.693 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z" fill="#fff"/>
+  </svg>
+</a>
+
+<script>
+const rv=document.querySelectorAll('.rv');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}});
+},{threshold:.12});
+rv.forEach(el=>obs.observe(el));
+setTimeout(()=>{const l=document.querySelector('.fablbl');if(l)l.style.opacity='0'},4000);
+</script>
+</body>
+</html>
