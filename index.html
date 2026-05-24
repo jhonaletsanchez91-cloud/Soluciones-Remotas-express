@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soluciones Remotas Express | Plataforma de Soporte Técnico Enterprise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:#0a0d14;
+  --dark:#0f1419;
+  --surface:#131820;
+  --surface2:#1a202c;
+  --cyan:#00d9ff;
+  --cyan-dim:#0891b2;
+  --purple:#a855f7;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --border:rgba(0,217,255,.08);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--text);font-family:'Inter',sans-serif;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+
+/* GRID BG */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background-image:linear-gradient(rgba(0,217,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,217,255,.03) 1px,transparent 1px);
+  background-size:50px 50px;pointer-events:none;
+}
+
+/* PREMIUM GLOW */
+.glow{position:fixed;z-index:0;filter:blur(120px);pointer-events:none}
+.glow-1{width:600px;height:600px;top:5%;right:-200px;background:radial-gradient(circle,rgba(0,217,255,.1),transparent 70%)}
+.glow-2{width:500px;height:500px;bottom:10%;left:-150px;background:radial-gradient(circle,rgba(168,85,247,.08),transparent 70%)}
+
+section,header,nav{position:relative;z-index:1}
+.wrap{max-width:1400px;margin:0 auto;padding:0 40px}
+.wrap-s{max-width:1000px;margin:0 auto;padding:0 40px}
+
+/* NAV PREMIUM */
+nav{
+  background:rgba(10,13,20,.85);backdrop-filter:blur(30px);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;
+}
+nav .wrap{height:90px;display:flex;justify-content:space-between;align-items:center}
+.logo{
+  display:flex;align-items:center;gap:12px;font-weight:900;
+  font-size:1.3rem;letter-spacing:-.03em;color:#fff;
+  font-family:monospace;
+}
+.logo span{color:var(--cyan);font-weight:800}
+.nav-cta{
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(168,85,247,.05));
+  border:1px solid var(--border);color:var(--cyan);
+  font-weight:600;font-size:.95rem;padding:11px 20px;
+  border-radius:8px;cursor:pointer;text-decoration:none;
+  transition:all .3s;
+}
+.nav-cta:hover{border-color:var(--cyan);background:rgba(0,217,255,.15)}
+
+/* HERO SECTION */
+#hero{
+  padding:180px 40px 120px;text-align:center;
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+}
+
+.hero-label{
+  display:inline-block;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.75rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.2em;
+  color:var(--cyan);background:rgba(0,217,255,.05);
+  border:1px solid var(--border);padding:10px 22px;
+  border-radius:100px;margin-bottom:32px;
+}
+
+h1{
+  font-size:clamp(3rem,12vw,5.5rem);
+  font-weight:900;line-height:1.1;
+  color:var(--text);margin-bottom:28px;
+  letter-spacing:-.03em;max-width:1100px;
+  margin-left:auto;margin-right:auto;
+}
+
+.hero-highlight{
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-size:300% 100%;animation:gradshift 8s ease infinite;
+}
+
+@keyframes gradshift{0%{background-position:0% 0}50%{background-position:100% 0}100%{background-position:0% 0}}
+
+.hero-sub{
+  font-size:clamp(1.1rem,2.5vw,1.35rem);
+  color:var(--muted);max-width:900px;
+  margin:0 auto 48px;font-weight:400;line-height:1.7;
+}
+
+.hero-ctas{
+  display:flex;gap:16px;align-items:center;justify-content:center;
+  flex-wrap:wrap;margin-bottom:80px;
+}
+
+.btn-dark{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(135deg,var(--cyan),#00e5ff);
+  color:var(--black);font-weight:800;font-size:1rem;
+  text-transform:uppercase;letter-spacing:.08em;
+  padding:16px 38px;border-radius:8px;border:none;cursor:pointer;
+  text-decoration:none;box-shadow:0 0 30px rgba(0,217,255,.3),0 8px 24px rgba(0,217,255,.1);
+  transition:all .3s;
+}
+.btn-dark:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(0,217,255,.5),0 12px 36px rgba(0,217,255,.2)}
+
+.btn-outline{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:transparent;color:var(--cyan);font-weight:700;font-size:1rem;
+  text-transform:uppercase;letter-spacing:.08em;padding:16px 38px;
+  border:1.5px solid var(--cyan);border-radius:8px;text-decoration:none;
+  transition:all .3s;
+}
+.btn-outline:hover{background:rgba(0,217,255,.08)}
+
+.hero-metrics{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:40px;max-width:900px;margin-left:auto;margin-right:auto;
+}
+
+.metric{
+  display:flex;flex-direction:column;align-items:center;
+}
+
+.metric-num{
+  font-size:clamp(2.5rem,5vw,3.5rem);
+  font-weight:900;color:var(--cyan);
+  font-family:'IBM Plex Mono',monospace;
+  margin-bottom:8px;
+}
+
+.metric-label{
+  font-size:.95rem;color:var(--muted);font-weight:500;
+}
+
+/* SECTION HEADER */
+.sec-header{text-align:center;margin-bottom:72px}
+.sec-label{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;
+  font-size:.75rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.2em;color:var(--cyan);margin-bottom:16px;
+}
+h2{
+  font-size:clamp(2.2rem,7vw,3.8rem);font-weight:900;
+  color:var(--text);margin-bottom:20px;line-height:1.2;
+  letter-spacing:-.03em;
+}
+.sec-desc{
+  font-size:clamp(1rem,2vw,1.2rem);color:var(--muted);
+  max-width:750px;margin:0 auto;font-weight:400;line-height:1.7;
+}
+
+/* VALUE PROPS */
+#values{padding:120px 40px}
+.values-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:32px;
+}
+
+.value-card{
+  background:linear-gradient(135deg,rgba(0,217,255,.04),rgba(168,85,247,.02));
+  border:1px solid var(--border);border-radius:12px;padding:40px 32px;
+  position:relative;overflow:hidden;
+  transition:all .3s;
+}
+
+.value-card::before{
+  content:'';position:absolute;top:-1px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  opacity:0;transition:opacity .3s;
+}
+
+.value-card:hover{
+  border-color:var(--cyan);transform:translateY(-6px);
+  box-shadow:0 0 40px rgba(0,217,255,.08);
+}
+
+.value-card:hover::before{opacity:1}
+
+.value-icon{
+  font-size:3rem;margin-bottom:20px;
+}
+
+.value-card h3{
+  font-size:1.4rem;font-weight:800;color:var(--text);
+  margin-bottom:12px;letter-spacing:-.02em;
+}
+
+.value-card p{
+  font-size:1rem;color:var(--muted);line-height:1.7;font-weight:400;
+}
+
+/* GEOGRAPHIC COVERAGE */
+#coverage{
+  padding:140px 40px;background:linear-gradient(180deg,rgba(0,217,255,.02),rgba(168,85,247,.01));
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+
+.coverage-map{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;max-width:1200px;margin-top:60px;margin-left:auto;margin-right:auto;
+}
+
+.city-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:36px;text-align:center;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+
+.city-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(0,217,255,.1),transparent 70%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+
+.city-card:hover{
+  border-color:var(--cyan);background:linear-gradient(135deg,rgba(0,217,255,.08),rgba(168,85,247,.04));
+}
+
+.city-card:hover::after{opacity:1}
+
+.city-badge{
+  display:inline-block;background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:var(--black);font-weight:800;font-size:.8rem;
+  text-transform:uppercase;letter-spacing:.1em;padding:8px 16px;
+  border-radius:6px;margin-bottom:16px;
+}
+
+.city-name{
+  font-size:1.6rem;font-weight:900;color:var(--text);
+  margin-bottom:12px;letter-spacing:-.02em;
+}
+
+.city-info{
+  font-size:.95rem;color:var(--muted);margin-bottom:20px;
+  line-height:1.6;
+}
+
+.city-status{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'IBM Plex Mono',monospace;font-size:.8rem;
+  font-weight:700;color:var(--cyan);
+}
+
+.status-dot{
+  width:8px;height:8px;background:var(--cyan);border-radius:50%;
+  animation:pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,217,255,.7)}
+  50%{opacity:.8;box-shadow:0 0 0 8px rgba(0,217,255,0)}
+}
+
+/* SERVICES TIER */
+#services{padding:140px 40px}
+.services-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:28px;max-width:1300px;margin-top:60px;margin-left:auto;margin-right:auto;
+}
+
+.service-tier{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:40px;
+  position:relative;overflow:hidden;
+  transition:all .3s;
+}
+
+.service-tier.featured{
+  border-color:var(--cyan);background:linear-gradient(135deg,rgba(0,217,255,.08),rgba(168,85,247,.04));
+  transform:scale(1.02);
+}
+
+.tier-badge{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;
+  font-weight:800;text-transform:uppercase;letter-spacing:.15em;
+  color:var(--cyan);margin-bottom:16px;
+}
+
+.tier-name{
+  font-size:1.5rem;font-weight:900;color:var(--text);
+  margin-bottom:12px;letter-spacing:-.02em;
+}
+
+.tier-price{
+  font-size:2.5rem;font-weight:900;color:var(--cyan);
+  font-family:'IBM Plex Mono',monospace;margin-bottom:4px;
+}
+
+.tier-period{
+  font-size:.9rem;color:var(--muted);margin-bottom:24px;
+}
+
+.tier-features{
+  list-style:none;margin-bottom:32px;
+}
+
+.tier-features li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:.95rem;color:var(--muted);margin-bottom:12px;
+  line-height:1.5;
+}
+
+.tier-features li::before{
+  content:'→';color:var(--cyan);font-weight:800;flex-shrink:0;
+}
+
+.tier-cta{
+  width:100%;background:transparent;color:var(--cyan);
+  border:1px solid var(--border);font-weight:700;
+  padding:12px 24px;border-radius:6px;cursor:pointer;
+  transition:all .3s;text-transform:uppercase;font-size:.9rem;
+  letter-spacing:.08em;
+}
+
+.tier-cta:hover{border-color:var(--cyan);background:rgba(0,217,255,.08)}
+
+.service-tier.featured .tier-cta{
+  background:linear-gradient(135deg,var(--cyan),#00e5ff);
+  color:var(--black);border-color:var(--cyan);font-weight:900;
+}
+
+.service-tier.featured .tier-cta:hover{
+  box-shadow:0 0 30px rgba(0,217,255,.3);
+}
+
+/* SLA GUARANTEE */
+#sla{padding:140px 40px;background:linear-gradient(180deg,rgba(168,85,247,.02),rgba(0,217,255,.02))}
+
+.sla-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:32px;max-width:1200px;margin-top:60px;margin-left:auto;margin-right:auto;
+}
+
+.sla-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:36px;text-align:center;
+}
+
+.sla-num{
+  font-size:3.5rem;font-weight:900;color:var(--cyan);
+  font-family:'IBM Plex Mono',monospace;margin-bottom:12px;
+}
+
+.sla-text{
+  font-size:1.1rem;font-weight:700;color:var(--text);
+  margin-bottom:8px;letter-spacing:-.01em;
+}
+
+.sla-desc{
+  font-size:.9rem;color:var(--muted);line-height:1.6;
+}
+
+/* CTA FINAL */
+#cta-final{
+  padding:140px 40px;text-align:center;
+  background:linear-gradient(135deg,rgba(0,217,255,.05),rgba(168,85,247,.03));
+  border-top:1px solid var(--border);
+}
+
+.cta-title{
+  font-size:clamp(2.5rem,8vw,4rem);font-weight:900;
+  color:var(--text);margin-bottom:24px;letter-spacing:-.03em;
+}
+
+.cta-subtitle{
+  font-size:1.2rem;color:var(--muted);margin-bottom:56px;
+  max-width:800px;margin-left:auto;margin-right:auto;line-height:1.7;
+}
+
+.cta-buttons{
+  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
+}
+
+.contact-box{
+  display:inline-flex;flex-direction:column;align-items:center;
+  gap:20px;background:var(--surface);border:1.5px solid var(--cyan);
+  border-radius:12px;padding:48px 56px;box-shadow:0 0 40px rgba(0,217,255,.1);
+}
+
+.contact-label{
+  font-family:'IBM Plex Mono',monospace;font-size:.75rem;
+  font-weight:700;text-transform:uppercase;letter-spacing:.2em;
+  color:var(--muted);
+}
+
+.contact-phone{
+  font-size:2.4rem;font-weight:900;color:var(--cyan);
+  font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;gap:12px;
+  text-decoration:none;transition:all .3s;
+}
+
+.contact-phone:hover{transform:scale(1.05)}
+
+.contact-status{
+  display:flex;align-items:center;gap:8px;font-size:.85rem;
+  font-weight:700;color:#10b981;font-family:'IBM Plex Mono',monospace;
+}
+
+.status-live{
+  width:10px;height:10px;background:#10b981;border-radius:50%;
+  animation:pulse2 2s ease-in-out infinite;
+}
+
+@keyframes pulse2{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(16,185,129,.7)}
+  50%{opacity:.8;box-shadow:0 0 0 8px rgba(16,185,129,0)}
+}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);background:rgba(10,13,20,.8);
+  padding:48px 40px;text-align:center;
+}
+
+footer p{
+  font-size:.9rem;color:var(--muted);font-weight:400;line-height:1.8;
+}
+
+footer .footer-links{
+  display:flex;gap:24px;justify-content:center;margin-bottom:24px;
+  flex-wrap:wrap;
+}
+
+footer a{
+  color:var(--cyan);text-decoration:none;font-weight:600;
+  font-size:.9rem;transition:color .3s;
+}
+
+footer a:hover{color:#00e5ff}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .wrap{padding:0 20px}
+  .wrap-s{padding:0 20px}
+  #hero{padding:120px 20px 80px}
+  #values{padding:80px 20px}
+  #coverage{padding:100px 20px}
+  #services{padding:100px 20px}
+  #sla{padding:100px 20px}
+  #cta-final{padding:100px 20px}
+  footer{padding:36px 20px}
+  .hero-ctas{gap:12px}
+  .btn-dark,.btn-outline{font-size:.9rem;padding:14px 28px}
+  .contact-box{padding:32px 24px}
+}
+</style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="logo">SRE<span>×</span></div>
+    <a href="https://wa.me/573154046275" class="nav-cta">
+      <span>📞</span> Contactar
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <span class="hero-label">Enterprise Infrastructure Support</span>
+  <h1>
+    Infraestructura crítica sin paros.<br>
+    <span class="hero-highlight">Cobertura nacional. Garantía SLA.</span>
+  </h1>
+  <p class="hero-sub">
+    Soporte técnico de élite para empresas que no pueden fallar. Manizales, Eje Cafetero, Cali, Bogotá y expansión continua.
+  </p>
+  <div class="hero-ctas">
+    <a href="#cta-final" class="btn-dark">Solicitar Demo</a>
+    <a href="#coverage" class="btn-outline">Ver Cobertura</a>
+  </div>
+
+  <div class="hero-metrics">
+    <div class="metric">
+      <div class="metric-num">99.8%</div>
+      <div class="metric-label">Uptime SLA Garantizado</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">15m</div>
+      <div class="metric-label">Respuesta Máxima</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">2,500+</div>
+      <div class="metric-label">Empresas Atendidas</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">24/7</div>
+      <div class="metric-label">NOC Operativo</div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROPS -->
+<section id="values">
+  <div class="wrap">
+    <div class="sec-header">
+      <span class="sec-label">Por qué nosotros</span>
+      <h2>Ventajas Competitivas</h2>
+      <p class="sec-desc">Infraestructura que compite con multinacionales globales, operada por especialistas colombianos.</p>
+    </div>
+    
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">🔒</div>
+        <h3>Zero Trust Security</h3>
+        <p>Conexiones encriptadas end-to-end. Cumplimiento con ISO 27001, GDPR y normativas colombianas.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">⚡</div>
+        <h3>Respuesta en Minutos</h3>
+        <p>Intervención remota directa. Sin esperas. NOC en Bogotá + especialistas regionales.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">📊</div>
+        <h3>Monitoreo 24/7</h3>
+        <p>Dashboard propio. Alertas en tiempo real. Reportes diarios de infraestructura.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">💼</div>
+        <h3>Account Manager Dedicado</h3>
+        <p>Equipo especialista asignado. Reuniones estratégicas trimestrales. Roadmap personalizado.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">🌐</div>
+        <h3>Cobertura Regional</h3>
+        <p>Soporte local con visión nacional. Presencia en 4 ciudades clave. Expansión continua.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">📈</div>
+        <h3>ROI Comprobado</h3>
+        <p>Reduce paros en 97%. Aumenta productividad 40%. Ahorro anual medio $85M COP.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGE -->
+<section id="coverage">
+  <div class="wrap">
+    <div class="sec-header">
+      <span class="sec-label">Alcance Geográfico</span>
+      <h2>Cobertura Nacional en Crecimiento</h2>
+      <p class="sec-desc">Presente en los principales centros empresariales de Colombia con NOC centralizado.</p>
+    </div>
+
+    <div class="coverage-map">
+      <div class="city-card">
+        <div class="city-badge">Headquarters</div>
+        <div class="city-name">Manizales</div>
+        <div class="city-info">Sede principal. Centro de Operaciones 24/7. Especialistas en sistemas empresariales.</div>
+        <div class="city-status"><span class="status-dot"></span> Operativo</div>
+      </div>
+
+      <div class="city-card">
+        <div class="city-badge">Regional</div>
+        <div class="city-name">Eje Cafetero</div>
+        <div class="city-info">Pereira, Armenia, Ibagué. Cobertura local + soporte remoto nacional.</div>
+        <div class="city-status"><span class="status-dot"></span> Operativo</div>
+      </div>
+
+      <div class="city-card">
+        <div class="city-badge">Regional</div>
+        <div class="city-name">Cali</div>
+        <div class="city-info">Soporte especializado para zona vallecaucana. Integración con NOC central.</div>
+        <div class="city-status"><span class="status-dot"></span> Operativo</div>
+      </div>
+
+      <div class="city-card">
+        <div class="city-badge">Capital</div>
+        <div class="city-name">Bogotá</div>
+        <div class="city-info">NOC Principal. Telecomunicaciones. Integración con sede central.</div>
+        <div class="city-status"><span class="status-dot"></span> Operativo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES TIERS -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-header">
+      <span class="sec-label">Planes Escalables</span>
+      <h2>Servicios por Segmento</h2>
+      <p class="sec-desc">De startups hasta Fortune 500. Cada plan incluye SLA garantizado y account manager.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- STARTER -->
+      <div class="service-tier">
+        <div class="tier-badge">Para Pymes</div>
+        <div class="tier-name">Starter</div>
+        <div class="tier-price">$299K</div>
+        <div class="tier-period">/ mes</div>
+        <ul class="tier-features">
+          <li>Respuesta en 30 minutos</li>
+          <li>Soporte remoto ilimitado</li>
+          <li>Monitoreo básico</li>
+          <li>Dashboard de incidentes</li>
+          <li>8 tickets mensuales presenciales</li>
+        </ul>
+        <button class="tier-cta">Consultar</button>
+      </div>
+
+      <!-- PROFESSIONAL -->
+      <div class="service-tier featured">
+        <div class="tier-badge">Más Popular</div>
+        <div class="tier-name">Professional</div>
+        <div class="tier-price">$899K</div>
+        <div class="tier-period">/ mes</div>
+        <ul class="tier-features">
+          <li>Respuesta en 15 minutos</li>
+          <li>Soporte 24/7 sin límites</li>
+          <li>Monitoreo avanzado + alertas</li>
+          <li>Account manager dedicado</li>
+          <li>24 tickets mensuales presenciales</li>
+          <li>SLA 99.5% uptime</li>
+        </ul>
+        <button class="tier-cta">Comenzar Ahora</button>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="service-tier">
+        <div class="tier-badge">Corporativo</div>
+        <div class="tier-name">Enterprise</div>
+        <div class="tier-price">Personalizado</div>
+        <div class="tier-period">/ mes</div>
+        <ul class="tier-features">
+          <li>Respuesta < 5 minutos</li>
+          <li>Soporte 24/7/365 dedicado</li>
+          <li>Monitoreo + análisis predictivo</li>
+          <li>Equipo especialista asignado</li>
+          <li>Acceso ilimitado presencial</li>
+          <li>SLA 99.9% uptime</li>
+          <li>API custom + integraciones</li>
+        </ul>
+        <button class="tier-cta">Contactar Ventas</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLA GUARANTEES -->
+<section id="sla">
+  <div class="wrap">
+    <div class="sec-header">
+      <span class="sec-label">Garantías Certificadas</span>
+      <h2>Compromisos SLA</h2>
+      <p class="sec-desc">Respaldados por certificaciones internacionales y garantía de crédito empresarial.</p>
+    </div>
+
+    <div class="sla-grid">
+      <div class="sla-item">
+        <div class="sla-num">99.8%</div>
+        <div class="sla-text">Uptime Garantizado</div>
+        <div class="sla-desc">O crédito del 1% de tarifa mensual por cada 0.1% de variación.</div>
+      </div>
+
+      <div class="sla-item">
+        <div class="sla-num">15m</div>
+        <div class="sla-text">Tiempo Máximo Respuesta</div>
+        <div class="sla-desc">Intervención garantizada en menos de 15 minutos desde reporte.</div>
+      </div>
+
+      <div class="sla-item">
+        <div class="sla-num">24/7</div>
+        <div class="sla-text">NOC Operativo</div>
+        <div class="sla-desc">Centro de operaciones abierto 365 días. Sin días festivos.</div>
+      </div>
+
+      <div class="sla-item">
+        <div class="sla-num">ISO 27001</div>
+        <div class="sla-text">Certificación Seguridad</div>
+        <div class="sla-desc">Cumplimiento GDPR. Auditorías externas anuales. Datos encriptados.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta-final">
+  <div class="wrap-s">
+    <h2 class="cta-title">Listo para Infrastructure Enterprise</h2>
+    <p class="cta-subtitle">
+      Únete a 2,500+ empresas que no pueden fallar. Desde startups hasta corporativos Fortune 500 colombianos.
+    </p>
+
+    <div class="cta-buttons">
+      <div class="contact-box">
+        <span class="contact-label">Línea Directa</span>
+        <a href="https://wa.me/573154046275" class="contact-phone">
+          <span>📞</span> +57 315 404 6275
+        </a>
+        <span class="contact-status">
+          <span class="status-live"></span> Soporte Inmediato
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="#values">Ventajas</a>
+    <a href="#coverage">Cobertura</a>
+    <a href="#services">Planes</a>
+    <a href="#sla">SLA</a>
+    <a href="https://wa.me/573154046275">Contacto</a>
+  </div>
+  <p>
+    © 2026 Soluciones Remotas Express. Manizales, Caldas, Colombia.<br>
+    Enterprise Infrastructure Support. ISO 27001. GDPR Compliant. SLA Guaranteed.
+  </p>
+</footer>
+
+<script>
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.style.opacity = '1';
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.value-card,.service-tier,.sla-item,.city-card').forEach(el => {
+  el.style.opacity = '0';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
